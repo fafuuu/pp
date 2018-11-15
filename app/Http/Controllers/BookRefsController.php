@@ -13,7 +13,7 @@ class BookRefsController extends Controller
 
         Ref::create([
             'book_id' => $book->id,
-            'user_id' => 1,
+            'user_id' => \Auth::user()->id,
             'link' => request('link'),
             'page_number' => request('page_number'),
             'description' => request('description')

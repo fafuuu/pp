@@ -25,6 +25,7 @@ class HomeController extends Controller
     {
       
         $books = \App\Book::all();
+    
        
 
         return view('home', ['books' => $books] );

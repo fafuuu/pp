@@ -46,7 +46,7 @@
     <ul>
         @foreach($book->refs->sortby('page_number') as $ref)
         <div class="card mt-4">
-            <h5 class="card-header">Seite: {{$ref->page_number}}</h5>
+            <h5 class="card-header">Seite: {{$ref->page_number}} Angelegt von: {{$ref->user->name}} </h5>
              <div class="card-body">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a></h5>
                 <p class="card-text">{{$ref->description}}</p>
