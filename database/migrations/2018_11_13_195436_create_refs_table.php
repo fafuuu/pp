@@ -20,6 +20,7 @@ class CreateRefsTable extends Migration
             $table->unsignedInteger('page_number');
             $table->string('link');
             $table->text('description');
+            $table->integer('votes')->default(0);
             $table->timestamps();
         });
     }

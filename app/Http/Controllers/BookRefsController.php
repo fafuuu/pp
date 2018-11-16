@@ -22,4 +22,18 @@ class BookRefsController extends Controller
         return back();
         
     }
+
+    public function update(Ref $ref) {
+
+
+
+        if (isset($_POST['upvote'])) {
+            $ref->increment('votes');
+        }
+        elseif (isset($_POST['downvote'])) {
+            $ref->decrement('votes');
+        }
+
+        return back();
+    }
 }

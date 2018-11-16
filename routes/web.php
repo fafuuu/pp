@@ -28,6 +28,7 @@ Route::post('/books', 'BooksController@store');
 Route::get('/books/{book}', "BooksController@show");
 
 Route::post('/books/{book}/refs', 'BookRefsController@store');
-
+//Route::patch('/books/{book}/refs/{ref}', 'BookRefsController@update');
+Route::patch('/refs/{ref}', 'BookRefsController@update');
 
 Route::get('/home', 'HomeController@index')->name('home');
