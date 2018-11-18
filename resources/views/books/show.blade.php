@@ -5,11 +5,19 @@
 <div class="card">
 <div class="card-body">
 <div class="media">
-    <span class="media-left">
+    <span class="media-left mr-2">
         <img src="{{$book->thumbnail}}" alt="...">
     </span>
     <div class="media-body">
         <h3 class="media-heading">{{$book->title}}</h3>
+        <ul>
+            <li> {{$book->subtitle}} </li>
+            <li> ISBN: {{$book->isbn}} </li>
+            <li> Autor: {{$book->author}} </li>
+            <li> Publisher: {{$book->publisher}} </li>
+            <li> {{$book->pageCount}} Seiten </li>
+            
+        </ul>
         
     </div>
 </div>
@@ -17,7 +25,8 @@
 </div>
 </div>
 
-@if(Auth::user())
+
+
 
 <div class="card">
     <div class="card-body">
@@ -34,16 +43,20 @@
   </div>
 
     <div class="form-group">
-        <label for="exampleFormControlTextarea1">Example textarea</label>
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Anmerkungen"></textarea>
      </div>
+
+     @if(Auth::guest())
+     <button type="button" id="testy" class="btn btn-primary btn-danger mb-2 float-right" data-toggle="popover" title="Popover title" 
+     data-content="Bitte logge dich ein, um einen Verweis zu posten">Veröffentlichen</button>
+     @endif
         
-        
+        @if(Auth::user())
         <button type="submit" class="btn btn-primary mb-2 float-right">Veröffentlichen</button>
+        @endif
         </form>
     </div>
 </div>
-@endif
 
 <input  name="seite" type="hidden">
 <button type="submit">Seite</button>
@@ -56,12 +69,13 @@
         
         @foreach($book->refs as $ref)
         
+        
         @if (isset($_POST['votes']))
             $book->refs->sortby('votes')
         @endif
         <div class="card mt-4">
             <h5 class="card-header">Seite: {{$ref->page_number}} Angelegt von: {{$ref->user->name}} 
-            <span class="float-right ml-2">Votes: {{$ref->votes}}</span>
+            <span class="float-right">Votes: {{$ref->votes}}</span>
            
                 <form method="POST" action="/refs/{{$ref->id}}">
                 
@@ -87,19 +101,20 @@
                 </form>
             </h5>
             @if($ref->votes <  0)
-            <button data-toggle="collapse" data-target="#demo">Collapsible</button>
-             <div class="card-body" id="demo">
+            
+            <button data-toggle="collapse" data-target="#demo{{$ref->id}}">Collapsible</button>
+             <div class="card-body collapse" id="demo{{ $ref->id }}" >
             @endif
              <div class="card-body">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
                 <p class="card-text">{{$ref->description}}</p>
-                @if(substr(parse_url($ref->link, PHP_URL_PATH), -3) == "jpg" 
-                || (substr(parse_url($ref->link, PHP_URL_PATH), -3) == "png"
-                || (substr(parse_url($ref->link, PHP_URL_PATH), -3) == "gif")))
+                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
+                || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
+                || (pathinfo($ref->link, PATHINFO_EXTENSION) == "gif")))
                     <img src="{{$ref->link}}" width="50%" height="auto" />
                 @endif
 
-                @if(substr(parse_url($ref->link, PHP_URL_PATH), -3) == "pdf")
+                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "pdf")
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
                     <iframe
                         src="{{$ref->link}}"

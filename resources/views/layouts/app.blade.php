@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Buchklub') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -34,7 +34,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -51,6 +51,15 @@
                                 @endif
                             </li>
                         @else
+                        
+                            <form class="form-inline mt-2 mt-md-0" method="POST" action="/books">
+
+                            {{csrf_field()}}
+
+                                <input class="form-control mr-sm-2" type="text" name="isbn" placeholder="ISBN oder Titel eingeben">
+                                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

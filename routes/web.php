@@ -31,4 +31,7 @@ Route::post('/books/{book}/refs', 'BookRefsController@store');
 //Route::patch('/books/{book}/refs/{ref}', 'BookRefsController@update');
 Route::patch('/refs/{ref}', 'BookRefsController@update');
 
+
+Route::get('/groups', 'GroupsController@index');
+
 Route::get('/home', 'HomeController@index')->name('home');

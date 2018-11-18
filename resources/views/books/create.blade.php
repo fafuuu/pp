@@ -8,7 +8,7 @@
         {{csrf_field()}}
 
         <div class="form-group">
-            <input type="text" name="isbn" placeholder="ISBN eingeben">
+            <input type="text" name="isbn" placeholder="ISBN oder Titel eingeben">
         </div>
         <div>
             <button type="submit" class="btn btn-primary">Submit</button>
