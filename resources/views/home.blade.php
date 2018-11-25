@@ -19,8 +19,9 @@
 
                     <ul>
                         
-                        @foreach($books as $book)
-                        <li class="list-group-item">{{$book->title}}</li>
+                        @foreach($refs->where("user_id", Auth::id()) as $ref)
+                        <li class="list-group-item">{{$ref->link}}</li>
+                        <li class="list-group-item">{{}}</li>
                         @endforeach
                         
                     </ul>

@@ -15,4 +15,14 @@ class GroupsController extends Controller
         return view('groups.index', ['groups'=> $groups]);
 
     }
+
+    public function update(Group $group) {
+
+        $group->user_id = request('join');
+
+        $group->save();
+
+        return back();
+
+    }
 }

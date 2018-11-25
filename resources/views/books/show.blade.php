@@ -11,7 +11,9 @@
     <div class="media-body">
         <h3 class="media-heading">{{$book->title}}</h3>
         <ul>
-            <li> {{$book->subtitle}} </li>
+            @if(!$book->subtitle == '')
+                <li> {{$book->subtitle}} </li>
+            @endif
             <li> ISBN: {{$book->isbn}} </li>
             <li> Autor: {{$book->author}} </li>
             <li> Publisher: {{$book->publisher}} </li>
@@ -35,16 +37,28 @@
     @csrf
   <div class="form-row">
     <div class="col">
-      <input type="text" class="form-control" name="link" placeholder="Link">
+      <input type="text" class="form-control {{$errors->has('link') ? 'is-invalid' : ''}}" name="link" placeholder="Link" value="{{old('link')}}">
     </div>
     <div class="form-group col-md-2">
-      <input type="text" class="form-control" name="page_number" placeholder="Seite">
+      <input type="text" class="form-control {{$errors->has('page_number') ? 'is-invalid' : ''}}" name="page_number" placeholder="Seite" value="{{old('page_number')}}">
     </div>
   </div>
 
     <div class="form-group">
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Anmerkungen"></textarea>
+        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Anmerkungen" value="{{old('description')}}"></textarea>
      </div>
+
+     @if($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <ul>
+                @foreach($errors->all() as $error)
+
+                    <li> {{$error}} </li>
+                
+                @endforeach
+            </ul>
+        </div>
+     @endif
 
      @if(Auth::guest())
      <button type="button" id="testy" class="btn btn-primary btn-danger mb-2 float-right" data-toggle="popover" title="Popover title" 
@@ -52,6 +66,18 @@
      @endif
         
         @if(Auth::user())
+        
+        <span> <i class="fas fa-lock"></i> </span>
+        <select name="visibility">
+
+                <option value="1">(None)</option>
+
+            @foreach($groups->where('id', Auth::user()->group_id) as $group)
+                <option value="{{$group->id}}">{{$group->group_name}} ID {{$group->id}}</option>
+            @endforeach
+         
+        </select>
+        
         <button type="submit" class="btn btn-primary mb-2 float-right">Veröffentlichen</button>
         @endif
         </form>
@@ -67,30 +93,35 @@
     
     <ul>
         
-        @foreach($book->refs as $ref)
+        @foreach($refs->sortby('page_number') as $ref)
         
-        
-        @if (isset($_POST['votes']))
-            $book->refs->sortby('votes')
-        @endif
         <div class="card mt-4">
             <h5 class="card-header">Seite: {{$ref->page_number}} Angelegt von: {{$ref->user->name}} 
-            <span class="float-right">Votes: {{$ref->votes}}</span>
+            <span class="">Votes: {{$ref->votes}} Gruppe: {{$ref->visibility}}</span>
+
+            @if($ref->votes <  0)
+                
+                <button class="btn btn-link" data-toggle="collapse" data-target="#demo{{$ref->id}}">
+                <i class="fas fa-angle-down"></i> Ausklappen
+                </button>
+            
+            @endif
            
-                <form method="POST" action="/refs/{{$ref->id}}">
+            <form class="float-right" method="POST" action="/refs/{{$ref->id}}">
                 
 
                 @method('PATCH')
                 @csrf
                
+                              
                 <input value="upvote" id="upvote" name="upvote" type="hidden">
                 <button type="submit" class="btn btn-primary float-right">
                     <i class="fas fa-arrow-alt-circle-up float-right"></i>
                 </button>
                 </form>
 
-                <form method="POST" action="/refs/{{$ref->id}}">
-
+                <form class="float-right" method="POST" action="/refs/{{$ref->id}}">
+            
                 @method('PATCH')
                 @csrf
                 <input value="downvote" name="downvote" type="hidden">
@@ -102,9 +133,10 @@
             </h5>
             @if($ref->votes <  0)
             
-            <button data-toggle="collapse" data-target="#demo{{$ref->id}}">Collapsible</button>
-             <div class="card-body collapse" id="demo{{ $ref->id }}" >
+                <div class="card-body collapse" id="demo{{ $ref->id }}" >
+            
             @endif
+
              <div class="card-body">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
                 <p class="card-text">{{$ref->description}}</p>

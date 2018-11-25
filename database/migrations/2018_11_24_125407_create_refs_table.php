@@ -18,11 +18,13 @@ class CreateRefsTable extends Migration
             $table->unsignedInteger('book_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('page_number');
+            $table->unsignedInteger('visibility');
             $table->string('link');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('votes')->default(0);
             $table->timestamps();
-            
+
+            $table->foreign('visibility')->references('id')->on('groups');
         });
     }
 

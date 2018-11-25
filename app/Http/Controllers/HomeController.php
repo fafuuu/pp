@@ -23,11 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-      
-        $books = \App\Book::all();
+        
+        $refs = \App\Ref::all();
+
+
     
        
 
-        return view('home', ['books' => $books] );
+        return view('home', ['refs' => $refs] );
     }
 }

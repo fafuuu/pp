@@ -12,10 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('landing');
 });
 
 Auth::routes();
+
+Route::get('/test', function () {
+    return view('test');
+});
 
 Route::get('/projects/create', 'ProjectsController@create');
 Route::get('/projects', 'ProjectsController@index');
@@ -33,5 +37,6 @@ Route::patch('/refs/{ref}', 'BookRefsController@update');
 
 
 Route::get('/groups', 'GroupsController@index');
+Route::patch('/groups/{group}', 'GroupsController@update');
 
 Route::get('/home', 'HomeController@index')->name('home');

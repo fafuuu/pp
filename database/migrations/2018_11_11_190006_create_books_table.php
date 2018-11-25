@@ -18,9 +18,9 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('isbn');
             $table->string('thumbnail');
-            $table->string('subtitle');
+            $table->string('subtitle')->nullable();
             $table->string('author');
-            $table->string('publisher');
+            $table->string('publisher')->nullable();
             $table->unsignedInteger('pageCount');
             $table->timestamps();
         });
