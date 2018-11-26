@@ -94,8 +94,9 @@
     <ul>
         
         @foreach($refs->sortby('page_number') as $ref)
-        
-        <div id="refcard" class="card mt-4">
+     
+    
+        <div id="refcard" class="card mt-4 w-100">
             <h5 class="card-header">Seite: {{$ref->page_number}} Angelegt von: {{$ref->user->name}} 
             <span class="">Votes: {{$ref->votes}} Gruppe: {{$ref->visibility}}</span>
 
@@ -164,11 +165,12 @@
 
                 @if(parse_url($ref->link, PHP_URL_HOST) == "www.youtube.com")
                 <iframe id="ytplayer" type="text/html" width="640" height="360"
-                src="http://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
+                src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
                 frameborder="0"/>
                 @endif
             </div>
         </div>
+
         @endforeach
     </ul>
 </div>

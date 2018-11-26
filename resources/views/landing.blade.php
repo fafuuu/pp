@@ -10,8 +10,8 @@
     <title>Cover Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/cover.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/cover.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
   </head>

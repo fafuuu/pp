@@ -38,9 +38,6 @@
                         <li>
                             <a href="/books"> Bücher </a>
                         </li>
-                        <li>
-                            <a href="/groups"> Gruppen </a>
-                        </li>
                         
                     </ul>
 
