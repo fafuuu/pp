@@ -8,6 +8,18 @@ use App\Group;
 
 class GroupsController extends Controller
 {
+
+    public function store() {
+
+        Group::create([
+
+            'group_name' => request('group')
+
+        ]);
+
+        return back();
+    }
+
     public function index() {
 
         $groups = Group::all();

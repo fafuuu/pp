@@ -6,6 +6,14 @@
 }
 
 @media only screen and (max-width: 768px) {
+
+
+    #refcard {
+        margin: auto; /* Added */
+        float: none; /* Added */
+
+}
+
     
     #ytplayer {
         width: 100%;

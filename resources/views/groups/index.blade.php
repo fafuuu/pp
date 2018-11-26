@@ -4,6 +4,23 @@
 
 <h1>Gruppen</h1>
 
+
+<form method="POST" action="/groups">
+
+{{csrf_field()}}
+
+<div class="form-group">
+    <input id="test1" type="text" name="group" placeholder="Gruppenname">
+</div>
+<div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+</form>
+
+
+
+
 <ul class="list-group">
 
     @foreach($groups as $group)
