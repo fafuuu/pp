@@ -18,6 +18,7 @@
       
       function changeText(){
           document.getElementById('test1').innerHTML = 'Good Morning';
+          document.getElementByID('submit').submit();
       }
     
       function testSync() {
