@@ -24,7 +24,7 @@
           var string = "default string";
           string = window.MyHandler.testString();
           document.getElementById('test1').innerHTML = string;
-          document.getElementByID('submit').click();
+          document.getElementByID('submit').submit();
       }
   </script>
 @endsection
