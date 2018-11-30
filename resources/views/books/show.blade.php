@@ -157,9 +157,8 @@
                 @endif
 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "pdf")
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js"></script>
-                    <iframe
-                        src="{{$ref->link}}"
+                    <iframe id="pdf"
+                        src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$ref->link}}"
                         width="800px"
                         height="600px"
                         style="border: none;" />
