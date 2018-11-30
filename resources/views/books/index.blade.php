@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div id="booksindex" class="container">
   <div class="row">
     @foreach($books->sortby('title') as $book)
 
@@ -11,7 +11,7 @@
             <a href="/books/{{$book->id}}">
                 <img src="{{$book->thumbnail}}" width="128" height="206" alt=" {{$book->title}} Cover">
             </a>
-            <figcaption class="figure-caption">{{$book->title}} </br>
+            <figcaption class="figure-caption">{{$book->title}}</br>
             <span class="badge badge-primary">
                     Verweise: {{count($book->refs)}}
                 </span>

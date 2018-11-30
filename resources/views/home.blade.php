@@ -2,10 +2,12 @@
 
 @section('content')
 <div class="container">
+
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Dashboard Rolle: {{Auth::user()->role}}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -16,10 +18,14 @@
 
                     You are logged in!
 
+                       
+
 
                     <ul>
                         
-                        @foreach($refs->where("user_id", Auth::id()) as $ref)
+                        @foreach($refs as $ref)
+                        <li> {{$ref->created_at}} </li>
+                       
                         <li class="list-group-item">{{$ref->link}}</li>
                         <li class="list-group-item">{{}}</li>
                         @endforeach
@@ -30,4 +36,5 @@
         </div>
     </div>
 </div>
+
 @endsection

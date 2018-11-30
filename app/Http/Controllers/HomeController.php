@@ -24,12 +24,9 @@ class HomeController extends Controller
     public function index()
     {
         
-        $refs = \App\Ref::all();
+        $refs = \App\Ref::all()->where("user_id", \Auth::id());
 
-
-    
-       
-
-        return view('home', ['refs' => $refs] );
+   
+        return view('home', ['refs' => $refs ] );
     }
 }

@@ -39,6 +39,19 @@
                             </div>
                         </div>
 
+                          <div class="form-group row">
+                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Rolle') }}</label>
+
+                             <div class="col-md-6">
+                                
+                                <select name="role" id="role" class="form-control" id="exampleFormControlSelect1" required>
+                                    <option value="Student">Student</option>
+                                    <option value="Dozent">Dozent</option>
+                                    <option value="Hobbyist">Hobbyist</option>
+                                </select>
+                             </div>
+                            </div>
+
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 

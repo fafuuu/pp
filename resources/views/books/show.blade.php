@@ -84,21 +84,27 @@
     </div>
 </div>
 
-<input  name="seite" type="hidden">
-<button type="submit">Seite</button>
-<button name="votes">Votes</button>
+<form method="GET" action="/books/refs">
+@csrf
+<input  name="dozent" type="hidden">
+<button type="submit">Dozent</button>
+</form
+
+
+
 
 @if ($book->refs->count())
 <div>
     
     <ul>
+
+    
         
         @foreach($refs->sortby('page_number') as $ref)
      
     
         <div id="refcard" class="card mt-4 w-100">
-            <h5 class="card-header">Seite: {{$ref->page_number}} Angelegt von: {{$ref->user->name}} 
-            <span class="">Votes: {{$ref->votes}} Gruppe: {{$ref->visibility}}</span>
+            <h5 class="card-header">Seite: {{$ref->page_number}}
 
             @if($ref->votes <  0)
                 
@@ -131,6 +137,8 @@
                 </button>
                     
                 </form>
+
+                <span class="float-right mr-2">Votes: {{$ref->votes}}</span>
             </h5>
             @if($ref->votes <  0)
             
@@ -140,6 +148,7 @@
 
              <div class="card-body">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
+               
                 <p class="card-text">{{$ref->description}}</p>
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"

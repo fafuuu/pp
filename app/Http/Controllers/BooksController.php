@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use App\Group;
+use App\User;
 
 class BooksController extends Controller
 {
@@ -63,7 +64,8 @@ class BooksController extends Controller
         
 
         if(!isset($data->items)) {
-           return redirect('/books/notfound');
+            //dd($isbn);
+           return view('books.notfound', ['book' => $isbn]);
         }
 
         if(count($book) > 1) {
@@ -76,7 +78,7 @@ class BooksController extends Controller
                 Book::create([
                     'title' => $data->items[0]->volumeInfo->title,
                     'isbn' => $data->items[0]->volumeInfo->industryIdentifiers[1]->identifier,
-                    'thumbnail' => $data->items[0]->volumeInfo->imageLinks->smallThumbnail,
+                    'thumbnail' => $data->items[0]->volumeInfo->imageLinks->smallThumbnail ?? '{{ assets/img/no_cover.png }}',
                     'subtitle' => $data->items[0]->volumeInfo->subtitle ?? null,
                     'author' => $data->items[0]->volumeInfo->authors[0],
                     'publisher' => $data->items[0]->volumeInfo->publisher ?? null,
@@ -102,6 +104,13 @@ class BooksController extends Controller
 
         $visible_all = $book->refs->where('visibility', 1);
 
+       
+        $tests = [];
+        foreach($book->refs as $ref) {
+            $tests[$ref->id] = $ref->where('user->role', 'Student');
+        }
+        //dd($tests);
+
 
         if(\Auth::check()) {
 
@@ -113,11 +122,6 @@ class BooksController extends Controller
 
             $refs = $visible_all;
         }
-
-        
-    
-
-        //dd($refs);
 
         return view("books.show", ["book" => $book, "groups" => $groups, "refs" => $refs]);
     }
