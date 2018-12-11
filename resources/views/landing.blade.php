@@ -24,7 +24,7 @@
         <div class="inner">
           <h3 class="masthead-brand">Buchklub</h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="/books">Books</a>
+            <a class="nav-link active" href="/books">Bücher</a>
             <a class="nav-link" href="https://github.com/fafuuu/pp_android/releases/tag/v0.1">Android</a>
             <a class="nav-link" href="/login">Login</a>
            
