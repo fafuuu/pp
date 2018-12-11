@@ -28,7 +28,7 @@
 </div>
 
 
-
+ @if(Auth::user())
 
 <div class="card">
     <div class="card-body">
@@ -59,15 +59,8 @@
             </ul>
         </div>
      @endif
-
-     @if(Auth::guest())
-     <button type="button" id="testy" class="btn btn-primary btn-danger mb-2 float-right" data-toggle="popover" title="Popover title" 
-     data-content="Bitte logge dich ein, um einen Verweis zu posten">Veröffentlichen</button>
-     @endif
-        
-        @if(Auth::user())
-        
-        <span> <i class="fas fa-lock"></i> </span>
+     
+        <span id="lock"> Beschränkung: <i class="fas fa-lock"></i> </span>
         <select name="visibility">
 
                 <option value="1">(None)</option>
@@ -84,22 +77,11 @@
     </div>
 </div>
 
-<form method="GET" action="/books/refs">
-@csrf
-<input  name="dozent" type="hidden">
-<button type="submit">Dozent</button>
-</form
-
-
-
-
 @if ($book->refs->count())
 <div>
     
     <ul>
 
-    
-        
         @foreach($refs->sortby('page_number') as $ref)
      
     
@@ -114,6 +96,7 @@
             
             @endif
            
+           @if(Auth::user())
             <form class="float-right" method="POST" action="/refs/{{$ref->id}}">
                 
 
@@ -137,9 +120,10 @@
                 </button>
                     
                 </form>
-
-                <span class="float-right mr-2">Votes: {{$ref->votes}}</span>
+            @endif
+                <span class="float-right mr-2">Bewertung: {{$ref->votes}}</span>
             </h5>
+
             @if($ref->votes <  0)
             
                 <div class="card-body collapse" id="demo{{ $ref->id }}" >
@@ -149,7 +133,15 @@
              <div class="card-body">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
                
+                <ul>
+                    <li><strong>Von:</strong> {{$ref->user->name}} </li>
+                    <li><strong>Role:</strong> {{$ref->user->role}} </li>
+                </ul>   
+                <br>
+
                 <p class="card-text">{{$ref->description}}</p>
+                
+
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "gif")))

@@ -12,7 +12,7 @@ class BooksController extends Controller
     
     public function index() {
 
-        $books = Book::paginate(5);
+        $books = Book::paginate(18);
 
         return view('books.index', ['books' => $books] );
     }
@@ -77,7 +77,7 @@ class BooksController extends Controller
 
                 Book::create([
                     'title' => $data->items[0]->volumeInfo->title,
-                    'isbn' => $data->items[0]->volumeInfo->industryIdentifiers[1]->identifier,
+                    'isbn' => $data->items[0]->volumeInfo->industryIdentifiers[1]->identifier ?? $data->items[0]->volumeInfo->industryIdentifiers[0]->identifier,
                     'thumbnail' => $data->items[0]->volumeInfo->imageLinks->smallThumbnail ?? '{{ assets/img/no_cover.png }}',
                     'subtitle' => $data->items[0]->volumeInfo->subtitle ?? null,
                     'author' => $data->items[0]->volumeInfo->authors[0],
@@ -102,6 +102,7 @@ class BooksController extends Controller
 
         $groups = Group::all();
 
+
         $visible_all = $book->refs->where('visibility', 1);
 
        
@@ -109,7 +110,24 @@ class BooksController extends Controller
         foreach($book->refs as $ref) {
             $tests[$ref->id] = $ref->where('user->role', 'Student');
         }
-        //dd($tests);
+        
+
+        $tt = $book->with(['refs' => function($query) {
+            $query->join('users', 'refs.user_id', '=', 'users.id')->where('users.role', '=', 'Student');
+        }]);
+
+        //dd($tt);
+
+
+        if(isset($_GET['dozent'])) {
+            //dd("Dozent");
+            $items = array();
+            foreach($book->refs as $ref) {
+                $items[] = $ref->where($ref->user->role, 'Dozent')->getModel();
+            }
+            //dd(\App\User::all());
+            
+        }
 
 
         if(\Auth::check()) {

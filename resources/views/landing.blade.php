@@ -25,7 +25,7 @@
           <h3 class="masthead-brand">Buchklub</h3>
           <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link active" href="/books">Books</a>
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="https://github.com/fafuuu/pp_android/releases/tag/v0.1">Android</a>
             <a class="nav-link" href="/login">Login</a>
            
           </nav>
@@ -33,8 +33,8 @@
       </header>
 
       <main role="main" class="inner cover">
-        <h1 class="cover-heading">Cover your page.</h1>
-        <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
+        <h1 class="cover-heading">Erweitere den Inhalt von Büchern mithilfe anderer Nutzer.</h1>
+        <p class="lead"></p>
         <p class="lead">
           <a href="/register" class="btn btn-lg btn-primary">Sign up</a>
         </p>

@@ -26,7 +26,9 @@ class HomeController extends Controller
         
         $refs = \App\Ref::all()->where("user_id", \Auth::id());
 
+        $books = \App\Book::all();
+
    
-        return view('home', ['refs' => $refs ] );
+        return view('home', ['refs' => $refs, 'books' => $books ] );
     }
 }

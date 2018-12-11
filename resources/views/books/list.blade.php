@@ -4,40 +4,36 @@
 
 <h1>Suchergebnisse </h1>
 
-    <ul class="list-group">
-        @foreach($book as $b)
-        <li class="list-group-item"> 
-            <a href="/books/{{$b->id}}" > {{$b->title}}
-                <span class="badge badge-primary">
-                    {{count($b->refs)}}
-                </span>
-            </a> 
-        </li>
-        @endforeach
-    </ul>
-
     @foreach($book as $b)
-    <div id="accordion">
-  <div class="card w-75">
-    <div class="card-header" id="heading{{$b->id}}">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{$b->id}}" aria-expanded="true" aria-controls="collapseOne">
-          {{$b->title}}
-        </button>
+    
+    <div id="search_card" class="card w-75 mb-2">
+<div class="card-body">
+<div class="media">
+    <span class="media-left mr-2">
+        <img src="{{$b->thumbnail}}" alt="...">
+    </span>
+    <div class="media-body">
+        <h3 class="media-heading"> <a href="/books/{{$b->id}}"> {{$b->title}} </a> 
         <span class="badge badge-primary float-right">
-                     {{count($b->refs)}}
-                </span>
-        <span class="float-right mr-2">Verweise: </span>
+                    Verweise: {{count($b->refs)}}
+        </span>
+        </h3>
+        <ul>
+            @if(!$b->subtitle == '')
+                <li> {{$b->subtitle}} </li>
+            @endif
+            <li> ISBN: {{$b->isbn}} </li>
+            <li> Autor: {{$b->author}} </li>
+            <li> Publisher: {{$b->publisher}} </li>
+            <li> {{$b->pageCount}} Seiten </li>
+            
+        </ul>
         
-      </h5>
     </div>
+</div>
 
-    <div id="collapse{{$b->id}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        <img src="{{$b->thumbnail}}" />
-      </div>
-    </div>
-  </div>
+</div>
+</div>
   @endforeach
 
 @endsection

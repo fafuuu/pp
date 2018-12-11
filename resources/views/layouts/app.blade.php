@@ -61,7 +61,7 @@
                             {{csrf_field()}}
 
                                 <input class="form-control mr-sm-2" type="text" name="isbn" placeholder="ISBN oder Titel eingeben">
-                                <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+                                <button class="btn btn-primary my-2 my-sm-0" type="submit">Suchen</button>
                             </form>
 
                             <li class="nav-item dropdown">

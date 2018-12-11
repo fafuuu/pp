@@ -4,10 +4,8 @@
         margin-bottom: 1em;
     }
 
-    .figure  {
-    
-        
-     
+    #lock {
+        display: block;
     }
 }
 
@@ -26,6 +24,10 @@
     #pdf {
         width: 100%;
         height: auto;
+    }
+
+    #search_card {
+        width: 100%;
     }
 }
 

@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1> new Book</h1>
+
+    <h1> Büchersuche</h1>
 
     <form method="POST" action="/books">
 
@@ -11,8 +12,9 @@
             <input id="test1" type="text" name="isbn" placeholder="ISBN oder Titel eingeben">
         </div>
         <div>
-            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+            <button id="submit" type="submit" class="btn btn-primary">Suchen</button>
         </div>
+
 
 <script type="text/javascript">
       

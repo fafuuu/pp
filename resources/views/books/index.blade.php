@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div id="booksindex" class="container">
+<h1>Alle Bücher</h1>
   <div class="row">
     @foreach($books->sortby('title') as $book)
-
-    
     <div class="col-sm-2">
         <figure class="figure">
             <a href="/books/{{$book->id}}">

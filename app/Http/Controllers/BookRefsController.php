@@ -38,7 +38,6 @@ class BookRefsController extends Controller
     public function update(Ref $ref) {
 
 
-
         if (isset($_POST['upvote'])) {
             $ref->increment('votes');
         }

@@ -18,6 +18,24 @@ class CreateGroupsTable extends Migration
             $table->string('group_name');
             $table->timestamps();
         });
+
+        DB::table('groups')->insert(
+            array(
+                'group_name' => 'Alle'
+            )
+        );
+
+        DB::table('groups')->insert(
+            array(
+                'group_name' => 'TH-Koeln'
+            )
+        );
+
+        DB::table('groups')->insert(
+            array(
+                'group_name' => 'RWTH-Aachen'
+            )
+        );
     }
 
     /**

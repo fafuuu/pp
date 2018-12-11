@@ -27,7 +27,7 @@
                         <li> {{$ref->created_at}} </li>
                        
                         <li class="list-group-item">{{$ref->link}}</li>
-                        <li class="list-group-item">{{}}</li>
+                        <li class="list-group-item">{}</li>
                         @endforeach
                         
                     </ul>
