@@ -16,20 +16,24 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <h5>Aktivitäten</h5>
 
-                       
-
-
-                    <ul>
+                    <ul class="list-group">
                         
                         @foreach($refs as $ref)
-                        <li> {{$ref->created_at}} </li>
-                       
-                        <li class="list-group-item">{{$ref->link}}</li>
-                        <li class="list-group-item">{}</li>
-                        @endforeach
                         
+                            <li class="list-group-item">
+                                <a href="{{$ref->link}}"> {{parse_url($ref->link, PHP_URL_HOST)}}</a>
+                            @foreach($books as $book)
+
+                            @endforeach
+                                 in 
+                                 <a href="/books/{{$ref->book_id}}">
+                                    {{ trim($book->where("id", $ref->book_id)->pluck('title'), '[""]') }}
+                                </a>
+                                 @endforeach
+                            </li>
+
                     </ul>
                 </div>
             </div>

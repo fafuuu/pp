@@ -136,6 +136,7 @@
                 <ul>
                     <li><strong>Von:</strong> {{$ref->user->name}} </li>
                     <li><strong>Role:</strong> {{$ref->user->role}} </li>
+                    <li><strong>Role:</strong> {{$ref->book_id}} </li>
                 </ul>   
                 <br>
 

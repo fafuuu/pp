@@ -28,6 +28,8 @@ class HomeController extends Controller
 
         $books = \App\Book::all();
 
+
+
    
         return view('home', ['refs' => $refs, 'books' => $books ] );
     }
