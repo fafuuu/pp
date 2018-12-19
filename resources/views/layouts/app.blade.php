@@ -10,8 +10,8 @@
     <title>{{ config('app.name', 'Buchklub') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/Mathjax/MathJax.js') }}" ></script>
+    <script src="{{ secure_asset('js/app.js') }}" defer></script>
+    <script src="{{ secure_asset('js/Mathjax/MathJax.js') }}" ></script>
 
 
     <!-- Fonts -->
@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/mobile.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/mobile.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
