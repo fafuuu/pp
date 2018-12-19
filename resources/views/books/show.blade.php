@@ -183,6 +183,10 @@
                 src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
                 frameborder="0"/>
                 @endif
+
+                @if(parse_url($ref->link, PHP_URL_HOST) == "www.openstreetmap.org")
+                <iframe id="osm" width="640" height="360" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{$ref->link}}">Größere Karte anzeigen</a></small>
+                @endif
             </div>
         </div>
 
