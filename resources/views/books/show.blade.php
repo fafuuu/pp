@@ -63,7 +63,7 @@
         <span id="lock"> Sichtbar für: <i class="fas fa-lock"></i> </span>
         <select name="visibility">
 
-                <option value="1">(None)</option>
+                <option value="1">Alle</option>
 
             @foreach($groups->where('id', Auth::user()->group_id) as $group)
                 <option value="{{$group->id}}">{{$group->group_name}} ID {{$group->id}}</option>
@@ -184,9 +184,6 @@
                 frameborder="0"/>
                 @endif
 
-                @if(parse_url($ref->link, PHP_URL_HOST) == "www.openstreetmap.org")
-                <iframe id="osm" width="640" height="360" frameborder="0" src="{{$ref->link}}">Größere Karte anzeigen</a></small>
-                @endif
             </div>
         </div>
 
@@ -199,7 +196,7 @@
 <div class="d-flex justify-content-center">
     <div class="alert alert-info mt-2 w-75" role="alert">
         <h4 class="alert-heading">Hier scheint noch nichts zu sein</h4>
-            <p>Sei der erste der eine Verweis veröffentlicht und helfe anderen nützliche Information zu finden.</p>
+            <p>Sei der erste der einen Verweis veröffentlicht und helfe anderen nützliche Information zu finden.</p>
     </div>
 </div>
 

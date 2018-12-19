@@ -9,6 +9,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
+        "mathjax/mathjax": "^2.7",
         "michelf/php-markdown": "^1.8"
     },
     "require-dev": {
