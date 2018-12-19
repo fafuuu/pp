@@ -70,6 +70,9 @@
             @endforeach
          
         </select>
+
+        <a href="markdown">Markdown</a>
+        <a href="math">MathJax</a>
         
         <button type="submit" class="btn btn-primary mb-2 float-right">Veröffentlichen</button>
         @endif
