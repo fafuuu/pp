@@ -39,6 +39,6 @@ Route::patch('/refs/{ref}', 'BookRefsController@update');
 
 Route::get('/groups', 'GroupsController@index');
 Route::post('/groups', 'GroupsController@store');
-Route::patch('/groups/{group}', 'GroupsController@update');
+Route::patch('/groups/{group}', 'UsersController@update');
 
 Route::get('/home', 'HomeController@index')->name('home');

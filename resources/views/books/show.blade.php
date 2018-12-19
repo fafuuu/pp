@@ -60,7 +60,7 @@
         </div>
      @endif
      
-        <span id="lock"> Beschränkung: <i class="fas fa-lock"></i> </span>
+        <span id="lock"> Sichtbar für: <i class="fas fa-lock"></i> </span>
         <select name="visibility">
 
                 <option value="1">(None)</option>
@@ -102,11 +102,10 @@
 
                 @method('PATCH')
                 @csrf
-               
-                              
-                <input value="upvote" id="upvote" name="upvote" type="hidden">
-                <button type="submit" class="btn btn-primary float-right">
-                    <i class="fas fa-arrow-alt-circle-up float-right"></i>
+                             
+                <input value="downvote" id="downvote" name="downvote" type="hidden">
+                <button type="submit" class="btn btn-danger float-right">
+                    <i class="far fa-thumbs-down float-right"></i>
                 </button>
                 </form>
 
@@ -114,10 +113,14 @@
             
                 @method('PATCH')
                 @csrf
-                <input value="downvote" name="downvote" type="hidden">
-                <button type="submit" class="btn btn-danger float-right mr-2">
-                    <i class="fas fa-arrow-alt-circle-down float-right"></i>
+
+
+                  <input value="upvote" name="upvote" type="hidden">
+                <button type="submit" class="btn btn-primary float-right mr-2">
+                    <i class="far fa-thumbs-up float-right"></i>
                 </button>
+
+              
                     
                 </form>
             @endif
@@ -136,20 +139,20 @@
                 <ul>
                     <li><strong>Von:</strong> {{$ref->user->name}} </li>
                     <li><strong>Role:</strong> {{$ref->user->role}} </li>
-                    <li><strong>Role:</strong> {{$ref->book_id}} </li>
                 </ul>   
                 <br>
 
-                <p class="card-text">{{$ref->description}}</p>
+                <p class="card-text"> {!! \Michelf\Markdown::defaultTransform($ref->description) !!} </p>
                 
-
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "gif")))
+                    <hr>
                     <img src="{{$ref->link}}" width="50%" height="auto" />
                 @endif
 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "pdf")
+                    <hr>
                     <iframe id="pdf"
                         src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$ref->link}}"
                         width="800px"
@@ -158,13 +161,24 @@
                 @endif
 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "webm")
+                <hr>
                 <video width="480" height="auto" controls>
                     <source src="{{$ref->link}}" type="video/webm">
                     Your browser does not support the video tag.
                 </video> 
                 @endif
 
+                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "mp3")
+                <hr>
+                 <audio controls>
+                    <source src="{{$ref->link}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                </audio> 
+
+                @endif
+
                 @if(parse_url($ref->link, PHP_URL_HOST) == "www.youtube.com")
+                <hr>
                 <iframe id="ytplayer" type="text/html" width="640" height="360"
                 src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
                 frameborder="0"/>
@@ -176,7 +190,17 @@
     </ul>
 </div>
     
+@else
+
+<div class="d-flex justify-content-center">
+    <div class="alert alert-info mt-2 w-75" role="alert">
+        <h4 class="alert-heading">Hier scheint noch nichts zu sein</h4>
+            <p>Sei der erste der eine Verweis veröffentlicht und helfe anderen nützliche Information zu finden.</p>
+    </div>
+</div>
+
 @endif
+
 
 @endsection
 

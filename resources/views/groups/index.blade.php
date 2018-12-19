@@ -27,7 +27,7 @@
 
         <li class="list-group-item mb-2"> {{$group->group_name}}
 
-        @if($group->id == Auth::user()->id)
+        @if($group->id == Auth::user()->group_id)
 
         <form class="float-right" method="POST" action="/groups/{{$group->id}}">
 
@@ -46,7 +46,7 @@
             @csrf
             @method('PATCH')
 
-                <button name="join" value="{{Auth::user()->id}}" type="submit" class="btn btn-success float-right">Join</button>
+                <button name="join" value="{{$group->id}}" type="submit" class="btn btn-success float-right">Join</button>
             </form>
         @endif
         </li>

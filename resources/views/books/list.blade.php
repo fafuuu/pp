@@ -6,7 +6,7 @@
 
     @foreach($book as $b)
     
-    <div id="search_card" class="card w-75 mb-2">
+<div id="search_card" class="card w-100 mb-2">
 <div class="card-body">
 <div class="media">
     <span class="media-left mr-2">
