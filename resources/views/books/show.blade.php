@@ -148,7 +148,7 @@
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "gif")))
                     <hr>
-                    <img src="{{$ref->link}}" width="50%" height="auto" />
+                    <img id="card_img" src="{{$ref->link}}" width="50%" height="auto" />
                 @endif
 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "pdf")
