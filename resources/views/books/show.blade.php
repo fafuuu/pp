@@ -71,14 +71,24 @@
          
         </select>
 
-        <a href="markdown">Markdown</a>
-        <a href="math">MathJax</a>
+
         
         <button type="submit" class="btn btn-primary mb-2 float-right">Veröffentlichen</button>
-        @endif
+
+       <a href="#modal" class="float-right mr-4" data-toggle="modal" data-target="#markdownModal">Markdown</a>
+       
+       @include('books.markdown_modal')
+
+       <a href="#modal" class="float-right mr-4" data-toggle="modal" data-target="#mathjaxModal">MathJax</a>
+
+       @include('books.mathjax_modal')
+
         </form>
     </div>
 </div>
+
+        @endif
+
 
 @if ($book->refs->count())
 <div>
@@ -145,7 +155,7 @@
                 </ul>   
                 <br>
 
-                <p class="card-text"> {!! \Michelf\Markdown::defaultTransform($ref->description) !!} </p>
+                <p class="card-text"> {!! Parsedown::instance()->text($ref->description) !!} </p>
                 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"

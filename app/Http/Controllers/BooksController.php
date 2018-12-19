@@ -99,7 +99,6 @@ class BooksController extends Controller
 
     public function show(Book $book) {
 
-
         $groups = Group::all();
 
 

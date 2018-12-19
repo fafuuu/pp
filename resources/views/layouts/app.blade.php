@@ -11,6 +11,9 @@
 
     <!-- Scripts -->
     <script src="{{ secure_asset('js/app.js') }}" defer></script>
+    <script src="{{ secure_asset('js/prism.js') }}" defer></script>
+
+
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
@@ -23,6 +26,8 @@
     <!-- Styles -->
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ secure_asset('css/mobile.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/prism.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
