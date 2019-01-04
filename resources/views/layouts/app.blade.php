@@ -25,6 +25,7 @@
 
     <!-- Styles -->
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet" media="mpdf">
     <link href="{{ secure_asset('css/mobile.css') }}" rel="stylesheet">
     <link href="{{ secure_asset('css/prism.css') }}" rel="stylesheet">
 

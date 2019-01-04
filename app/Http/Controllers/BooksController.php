@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\Group;
 use App\User;
+use Mpdf\Mpdf;
+
+
+
+//require_once __DIR__ . 'vendor/autoload.php';
 
 class BooksController extends Controller
 {
@@ -141,6 +146,47 @@ class BooksController extends Controller
         }
 
         return view("books.show", ["book" => $book, "groups" => $groups, "refs" => $refs]);
+    }
+
+    public function archive(Book $book) {
+
+        $parsedown = new \Parsedown();
+
+        $mpdf = new Mpdf();
+        //$stylesheet = file_get_contents('/home/fabian/laravel/proto/public/css/prism.css');
+        //$html = $parsedown->text($book->refs[18]->description);
+        //dd($html);
+        $mpdf->writeHTML('<h3>' . $book->title . '<h3>');
+        //$mpdf->writeHTML('<img src ="' . $book->thumbnail . '" alt="..." >');
+        //$mpdf->writeHTML('<img src ="/home/fabian/laravel/proto/public/img/no_cover.png" alt="..." >');
+/*
+
+        $mpdf->writeHTML('<ul styles="float: right">
+        <li>' . $book->isbn . '</li>
+        <li>' . $book->author . '</li>
+        <li>'. $book->publisher . '</li>
+        <li>' . $book->page_number . '</li></ul><hr>'
+        );
+
+        
+
+        foreach($book->refs as $ref) {
+            $ref_list = '<ul>';
+            $ref_list .= '<li>Von: ' . $ref->user->name . '<li>';
+            $ref_list .= '<li>Von: ' . $ref->page_number . '<li>';
+            $ref_list .= '<li>Quelle ' . '<a href ="' . $ref->link .'">' . parse_url($ref->link, PHP_URL_HOST) . '</a>'; 
+            $ref_list .= '<li>Anmerkung: ' . $parsedown->text($ref->description) . '</li>';
+            $ref_list .= '</ul><hr>'; 
+            $mpdf->writeHTML($ref_list);
+        }
+*/
+        
+        $mpdf->writeHTML(file_get_contents('https://buchklub.herokuapp.com/books/' . $book->id));
+
+        //$mpdf->WriteHTML($stylesheet, 1);
+
+        $mpdf->Output();
+
     }
     
 }

@@ -30,8 +30,10 @@ Route::get('/books', 'BooksController@index');
 Route::get('/books/notfound', 'BooksController@notfound');
 Route::post('/books', 'BooksController@store');
 Route::get('/books/{book}', "BooksController@show");
+Route::post('/books/{book}/archived', 'BooksController@archive');
 
 Route::post('/books/{book}/refs', 'BookRefsController@store');
+Route::post('/books/{book}/refs/zip', 'BookRefsController@zip');
 //Route::patch('/books/{book}/refs/{ref}', 'BookRefsController@update');
 Route::get('books/refs', 'BookRefsController@show');
 Route::patch('/refs/{ref}', 'BookRefsController@update');
