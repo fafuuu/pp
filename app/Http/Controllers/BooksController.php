@@ -159,7 +159,6 @@ class BooksController extends Controller
         $mpdf->writeHTML('<h3>' . $book->title . '<h3>');
         //$mpdf->writeHTML('<img src ="' . $book->thumbnail . '" alt="..." >');
         //$mpdf->writeHTML('<img src ="/home/fabian/laravel/proto/public/img/no_cover.png" alt="..." >');
-/*
 
         $mpdf->writeHTML('<ul styles="float: right">
         <li>' . $book->isbn . '</li>
@@ -179,9 +178,8 @@ class BooksController extends Controller
             $ref_list .= '</ul><hr>'; 
             $mpdf->writeHTML($ref_list);
         }
-*/
         
-        $mpdf->writeHTML(file_get_contents('https://buchklub.herokuapp.com/books/' . $book->id));
+        //$mpdf->writeHTML(file_get_contents('https://buchklub.herokuapp.com/books/' . $book->id));
 
         //$mpdf->WriteHTML($stylesheet, 1);
 
