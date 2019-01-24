@@ -201,15 +201,7 @@
                 @endif
 
                 @if(parse_url($ref->link, PHP_URL_HOST) == "www.youtube.com")
-
-                <form class="float-right" method="POST" action="/books/{{ $book->id }}/refs/zip">
-                        
-                        @csrf
-                            <input value="downvote" id="downvote" name="downvote" type="hidden">
-                             <button type="submit" class="btn btn-success float-right">
-                                    Download
-                             </button>
-                </form>                
+              
                 <hr>
                 <iframe id="ytplayer" type="text/html" width="640" height="360"
                 src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
