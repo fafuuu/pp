@@ -37,7 +37,6 @@
 </div>
 </div>
 
-
  @if(Auth::user())
 
 <div class="card">
@@ -99,16 +98,14 @@
 
         @endif
 
-
 @if ($book->refs->count())
 <div>
     
-    <ul>
 
         @foreach($refs->sortby('page_number') as $ref)
      
     
-        <div id="refcard" class="card mt-4 w-100">
+        <div id="refcard" class="card mt-4">
             <h5 class="card-header">Seite: {{$ref->page_number}}
 
             @if($ref->votes <  0)
@@ -180,7 +177,7 @@
                         src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$ref->link}}"
                         width="800px"
                         height="600px"
-                        style="border: none;" />
+                        style="border: none;"></iframe>
                 @endif
 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "webm")
@@ -205,14 +202,14 @@
                 <hr>
                 <iframe id="ytplayer" type="text/html" width="640" height="360"
                 src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
-                frameborder="0"/>
+                frameborder="0"></iframe>
                 @endif
 
             </div>
         </div>
 
         @endforeach
-    </ul>
+
 </div>
     
 @else
@@ -229,3 +226,5 @@
 
 @endsection
 
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}" ></script>
+<script>tinymce.init({ selector:'textarea', branding: false });</script>

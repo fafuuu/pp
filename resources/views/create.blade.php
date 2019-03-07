@@ -1,21 +1,20 @@
-@extends('layouts.app')
-
+@extends('layouts.app') 
 @section('content')
-    <h1> Create a new Project</h1>
+<h1> Create a new Project</h1>
 
-    <form method="POST" action="/projects">
+<form method="POST" action="/projects">
 
-        {{csrf_field()}}
+    {{csrf_field()}}
 
-        <div class="form-group">>
-            <input type="text" name="title" placeholder="Link">
-        </div>
+    <div class="form-group">>
+        <input type="text" name="title" placeholder="Link">
+    </div>
 
-        <div>
-            <textarea name="description" placeholder="Anmerkung"></textarea>
-        </div>
+    <div>
+        <textarea name="description" placeholder="Anmerkung"></textarea>
+    </div>
 
-        <div>
-            <button type="submit">Submit</button>
-        </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
 @endsection
