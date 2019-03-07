@@ -226,5 +226,5 @@
 
 @endsection
 
-<script src="{{ asset('js/tinymce/tinymce.min.js') }}" ></script>
+<script src="{{ secure_asset('js/tinymce/tinymce.min.js') }}" ></script>
 <script>tinymce.init({ selector:'textarea', branding: false });</script>
