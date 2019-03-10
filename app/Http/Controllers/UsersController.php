@@ -20,16 +20,4 @@ class UsersController extends Controller
 
     }
 
-    public function index()
-    {
-
-        $user = \Auth::user();
-
-        return view('profile.index', ['user' => $user]);
-    }
-
-    public function profile()
-    {
-        
-    }
 }

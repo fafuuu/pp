@@ -42,7 +42,7 @@ Route::patch('/refs/{ref}', 'BookRefsController@update');
 Route::get('/groups', 'GroupsController@index');
 Route::post('/groups', 'GroupsController@store');
 Route::patch('/groups/{group}', 'UsersController@update');
-Route::get('/{user}', 'UsersController@index');
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::patch('/notification/{notification}', 'NotificationController@read');
