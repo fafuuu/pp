@@ -58,7 +58,7 @@ class BookRefsController extends Controller
         elseif (isset($_POST['creative'])) {
             $ref->increment('creative');
 
-            if(Auth::check && \Auth::user()->id != $ref->user->id) {
+            if(\Auth::check && \Auth::user()->id != $ref->user->id) {
                 $ref->user->increment('score', 5);
                 $ref->user->increment('badge_creative');
 
