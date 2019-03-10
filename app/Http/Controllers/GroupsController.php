@@ -30,11 +30,16 @@ class GroupsController extends Controller
 
     public function update(Group $group) {
 
-        $group->user_id = request('join');
+        //$group->user_id = request('join');
 
-        $group->save();
+        $test = \Auth::user()->group_id = request('join');
+
+        $test->save();
+
+        //$group->save();
 
         return back();
+
 
     }
 }

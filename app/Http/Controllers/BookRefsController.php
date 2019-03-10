@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\Ref;
 use App\Group;
+use App\Notifications\CreativeNotification;
+use App\Notifications\NewRefNotification;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 
 
 use YoutubeDl\YoutubeDl;
@@ -28,17 +32,17 @@ class BookRefsController extends Controller
 
         
 
-        Ref::create([
+        $id = Ref::create([
             'book_id' => $book->id,
             'user_id' => \Auth::user()->id,
             'visibility' => request('visibility'),
             'link' => request('link'),
             'page_number' => request('page_number'),
             'description' => request('description')
-        ]);
+        ])->id;
 
-
-        return back();
+        
+        return Redirect::to(URL::previous() . "#card" .$id);
         
     }
 
@@ -50,6 +54,24 @@ class BookRefsController extends Controller
         }
         elseif (isset($_POST['downvote'])) {
             $ref->decrement('votes');
+        }
+        elseif (isset($_POST['creative'])) {
+            $ref->increment('creative');
+
+            if(\Auth::user()->id != $ref->user->id) {
+                $ref->user->increment('score', 5);
+                $ref->user->increment('badge_creative');
+
+                $details = [$ref->id, \Auth::user()->name];
+                //$details = \Auth::user()->name . " hat deinen Verweis in " . $ref->book->name . " als kreativ bewertet";
+                $ref->user->notify(new CreativeNotification($ref));
+            }
+        }
+        elseif (isset($_POST['costly'])) {
+            $ref->increment('costly');
+        }
+        elseif (isset($_POST['confusing'])) {
+            $ref->increment('confusing');
         }
 
         return back();

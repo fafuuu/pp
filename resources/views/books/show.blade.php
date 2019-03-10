@@ -20,7 +20,16 @@
             <li> {{$book->pageCount}} Seiten </li>
             
         </ul>
-        
+        <form class="float-right" name="watchlist1"  method="POST" action="/watchlist/1">
+                
+            @method('PATCH')
+            @csrf
+                         
+            <input name="watchlist" value="{{$book->id}}" type="hidden">
+            <button type="submit" class="btn btn-danger float-right">
+                Zur Watchlist hinzufügen
+            </button>
+            </form>
     </div>
 </div>
 
@@ -110,7 +119,7 @@
 
             @if($ref->votes <  0)
                 
-                <button class="btn btn-link" data-toggle="collapse" data-target="#demo{{$ref->id}}">
+                <button class="btn btn-link" data-toggle="collapse" data-target="#card{{$ref->id}}">
                 <i class="fas fa-angle-down"></i> Ausklappen
                 </button>
             
@@ -149,11 +158,11 @@
 
             @if($ref->votes <  0)
             
-                <div class="card-body collapse" id="demo{{ $ref->id }}" >
+                <div class="card-body collapse" id="card{{ $ref->id }}" >
             
             @endif
 
-             <div class="card-body">
+             <div class="card-body" id="card{{ $ref->id }}">
                 <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
                
                 <ul>
@@ -162,7 +171,7 @@
                 </ul>   
                 <br>
 
-                <p class="card-text"> {!! Parsedown::instance()->text($ref->description) !!} </p>
+                <p class="card-text"> {!! $ref->description !!} </p>
                 
                 @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
                 || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
@@ -205,6 +214,39 @@
                 frameborder="0"></iframe>
                 @endif
 
+                <form class="float-left" method="POST" action="/refs/{{$ref->id}}">
+                
+                    @method('PATCH')
+                    @csrf
+                                 
+                    <input value="creative" id="creative" name="creative" type="hidden">
+                    <button type="submit" class="btn btn-success mr-2" title=" {{$ref->creative}} fanden diesen Verweis kreativ">
+                        <i class="far fa-lightbulb fa-3x"></i>
+                    </button>
+                </form>
+    
+                <form class="float-left" method="POST" action="/refs/{{$ref->id}}">
+                
+                    @method('PATCH')
+                    @csrf
+    
+                    <input value="costly" name="costly" type="hidden">
+                    <button type="submit" class="btn btn-danger mr-2" title="{{$ref->costly}} fanden diesen Verweis aufwendig">
+                        <i class="fas fa-award fa-3x"></i>
+                    </button>
+                </form>
+
+                    <form class="float-left" method="POST" action="/refs/{{$ref->id}}">
+                
+                        @method('PATCH')
+                        @csrf
+
+                        <input value="confusing" name="confusing" type="hidden">
+                        <button type="submit" class="btn btn-warning mr-2" title="{{$ref->confusing}} fanden diesen Verweis verwirrend">
+                            <i class="far fa-meh fa-3x"></i> 
+                        </button>
+                    </form>
+                
             </div>
         </div>
 
@@ -226,5 +268,5 @@
 
 @endsection
 
-<script src="{{ secure_asset('js/tinymce/tinymce.min.js') }}" ></script>
-<script>tinymce.init({ selector:'textarea', branding: false });</script>
+
+

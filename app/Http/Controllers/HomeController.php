@@ -28,9 +28,10 @@ class HomeController extends Controller
 
         $books = \App\Book::all();
 
+        $notifications = \Auth::user()->notifications()->orderBy('created_at', 'desc')->get();
+        //dd($notifications);
 
-
-   
-        return view('home', ['refs' => $refs, 'books' => $books ] );
+        return view('home', ['refs' => $refs, 'books' => $books, 'notifications' => $notifications ] );
     }
+
 }

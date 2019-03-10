@@ -18,6 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('role');
+            $table->integer('score')->default(0);
+            $table->integer('badge_creative')->default(0);
+            $table->integer('badge_costly')->default(0);
             $table->unsignedInteger('group_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

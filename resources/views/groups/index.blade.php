@@ -34,7 +34,7 @@
             @csrf
             @method('PATCH')
 
-            <button name="join" value="{{Auth::user()->id}}" type="submit" class="btn btn-danger float-right">Leave</button>
+            <button name="leave" value="{{Auth::user()->id}}" type="submit" class="btn btn-danger float-right">Leave</button>
        
         </form>
 
@@ -48,8 +48,9 @@
 
                 <button name="join" value="{{$group->id}}" type="submit" class="btn btn-success float-right">Join</button>
             </form>
-        @endif
+        
         </li>
+        @endif
     @endforeach
 
 </ul>

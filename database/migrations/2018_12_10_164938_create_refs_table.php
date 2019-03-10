@@ -22,6 +22,9 @@ class CreateRefsTable extends Migration
             $table->string('link');
             $table->text('description')->nullable();
             $table->integer('votes')->default(0);
+            $table->integer('creative')->default(0);
+            $table->integer('costly')->default(0);
+            $table->integer('confusing')->default(0);
             $table->timestamps();
 
             $table->foreign('visibility')->references('id')->on('groups');
