@@ -2,6 +2,10 @@
 
 @section('content')
 
+@guest 
+@include('books.missingout_modal')
+@endguest
+
 <div class="card">
 <div class="card-body">
 <div class="media">
@@ -26,22 +30,21 @@
             @csrf
                          
             <input name="watchlist" value="{{$book->id}}" type="hidden">
+            @if (\Session::has('success'))
+                <p>{!! \Session::get('success') !!}</p>
+            @endif
+            @if (\Session::has('err'))
+                <p>{!! \Session::get('err') !!}</p>
+            @endif
             <button type="submit" class="btn btn-danger float-right">
                 Zur Watchlist hinzufügen
             </button>
             </form>
+
     </div>
 </div>
 
- <form class="float-right" method="POST" action="/books/{{$book->id}}/archived">
-        
-        @csrf
-            <input type="hidden">
-                <button type="submit" class="btn btn-success float-right">
-                    Exportieren
-                </button>
-</form>
-
+</div>
 
 </div>
 </div>
@@ -54,16 +57,14 @@
 
     @csrf
   <div class="form-row">
-    <div class="col">
-      <input id="link" type="text" class="form-control {{$errors->has('link') ? 'is-invalid' : ''}}" name="link" placeholder="Link" value="{{old('link')}}">
-    </div>
     <div class="form-group col-md-2">
-      <input type="text" class="form-control {{$errors->has('page_number') ? 'is-invalid' : ''}}" name="page_number" placeholder="Seite" value="{{old('page_number')}}">
+        <label for="">Bezieht sich auf Seite:</label>
+      <input type="text" class="form-control {{$errors->has('page_number') ? 'is-invalid' : ''}}" name="page_number" placeholder="Seitenzahl" value="{{old('page_number')}}">
     </div>
   </div>
 
     <div class="form-group">
-        <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3" placeholder="Anmerkungen" value="{{old('description')}}"></textarea>
+        <textarea class="form-control" name="description" id="description_textarea" rows="3" placeholder="Anmerkungen" value="{{old('description')}}"></textarea>
      </div>
 
      @if($errors->any())
@@ -93,14 +94,6 @@
         
         <button type="submit" class="btn btn-primary mb-2 float-right">Veröffentlichen</button>
 
-       <a href="#modal" class="float-right mr-4" data-toggle="modal" data-target="#markdownModal">Markdown</a>
-       
-       @include('books.markdown_modal')
-
-       <a href="#modal" class="float-right mr-4" data-toggle="modal" data-target="#mathjaxModal">MathJax</a>
-
-       @include('books.mathjax_modal')
-
         </form>
     </div>
 </div>
@@ -109,8 +102,6 @@
 
 @if ($book->refs->count())
 <div>
-    
-
         @foreach($refs->sortby('page_number') as $ref)
      
     
@@ -133,7 +124,7 @@
                 @csrf
                              
                 <input value="downvote" id="downvote" name="downvote" type="hidden">
-                <button type="submit" class="btn btn-danger float-right">
+                <button type="submit" {{\Auth::user()->id == $ref->user_id ? 'disabled' : '' }} class="btn btn-danger float-right">
                     <i class="far fa-thumbs-down float-right"></i>
                 </button>
                 </form>
@@ -145,7 +136,7 @@
 
 
                   <input value="upvote" name="upvote" type="hidden">
-                <button type="submit" class="btn btn-primary float-right mr-2">
+                <button type="submit" {{\Auth::user()->id == $ref->user_id ? 'disabled' : '' }} class="btn btn-primary float-right mr-2">
                     <i class="far fa-thumbs-up float-right"></i>
                 </button>
 
@@ -163,64 +154,41 @@
             @endif
 
              <div class="card-body" id="card{{ $ref->id }}">
-                <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a> </h5>
+                <h5 class="card-title">Quelle: <a href ="{{$ref->link}}">{{parse_url($ref->link, PHP_URL_HOST)}} </a>
+                     
+
+                    @if(Auth::check() && Auth::user()->id == $ref->user_id)
+                    <a href="#modal" class="float-right mr-4" data-toggle="modal" data-target="#editModal-{{$ref->id}}"> <i class="fas fa-pencil-alt float left"></i> Bearbeiten</a>
+                    
+                    @include('books.edit_modal')
+                    @endif
+                </h5>
                
+                @if (Session::has('created'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ Session::get('created') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                @endif
                 <ul>
-                    <li><strong>Von:</strong> {{$ref->user->name}} </li>
+                    <li><strong>Von:</strong> <a href="/profile/{{$ref->user->name}}">{{$ref->user->name}} </a></li>
                     <li><strong>Role:</strong> {{$ref->user->role}} </li>
                 </ul>   
                 <br>
 
                 <p class="card-text"> {!! $ref->description !!} </p>
-                
-                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "jpg" 
-                || (pathinfo($ref->link, PATHINFO_EXTENSION) == "png"
-                || (pathinfo($ref->link, PATHINFO_EXTENSION) == "gif")))
-                    <hr>
-                    <img id="card_img" src="{{$ref->link}}" width="50%" height="auto" />
-                @endif
 
-                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "pdf")
-                    <hr>
-                    <iframe id="pdf"
-                        src="https://drive.google.com/viewerng/viewer?embedded=true&url={{$ref->link}}"
-                        width="800px"
-                        height="600px"
-                        style="border: none;"></iframe>
-                @endif
-
-                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "webm")
-                <hr>
-                <video width="480" height="auto" controls>
-                    <source src="{{$ref->link}}" type="video/webm">
-                    Your browser does not support the video tag.
-                </video> 
-                @endif
-
-                @if(pathinfo($ref->link, PATHINFO_EXTENSION) == "mp3")
-                <hr>
-                 <audio controls>
-                    <source src="{{$ref->link}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                </audio> 
-
-                @endif
-
-                @if(parse_url($ref->link, PHP_URL_HOST) == "www.youtube.com")
-              
-                <hr>
-                <iframe id="ytplayer" type="text/html" width="640" height="360"
-                src="https://www.youtube.com/embed/{{substr(parse_url($ref->link, PHP_URL_QUERY), 2)}}"
-                frameborder="0"></iframe>
-                @endif
-
+                @if(Auth::check())
+                <br>
                 <form class="float-left" method="POST" action="/refs/{{$ref->id}}">
                 
                     @method('PATCH')
                     @csrf
                                  
                     <input value="creative" id="creative" name="creative" type="hidden">
-                    <button type="submit" class="btn btn-success mr-2" title=" {{$ref->creative}} fanden diesen Verweis kreativ">
+                    <button type="submit" {{\Auth::user()->id == $ref->user_id ? 'disabled' : '' }} onClick="this.disabled=true" class="btn btn-success mr-2" title=" {{$ref->creative}} fanden diesen Verweis kreativ">
                         <i class="far fa-lightbulb fa-3x"></i>
                     </button>
                 </form>
@@ -231,7 +199,7 @@
                     @csrf
     
                     <input value="costly" name="costly" type="hidden">
-                    <button type="submit" class="btn btn-danger mr-2" title="{{$ref->costly}} fanden diesen Verweis aufwendig">
+                    <button type="submit" {{\Auth::user()->id == $ref->user_id ? 'disabled' : '' }} class="btn btn-danger mr-2" title="{{$ref->costly}} fanden diesen Verweis aufwendig">
                         <i class="fas fa-award fa-3x"></i>
                     </button>
                 </form>
@@ -242,12 +210,18 @@
                         @csrf
 
                         <input value="confusing" name="confusing" type="hidden">
-                        <button type="submit" class="btn btn-warning mr-2" title="{{$ref->confusing}} fanden diesen Verweis verwirrend">
+                        <button type="submit" {{\Auth::user()->id == $ref->user_id ? 'disabled' : '' }} class="btn btn-warning mr-2" title="{{$ref->confusing}} fanden diesen Verweis verwirrend">
                             <i class="far fa-meh fa-3x"></i> 
                         </button>
                     </form>
-                
+                @endif
             </div>
+           
+    
+                @comments(['model' => $ref])
+                @endcomments
+            
+            
         </div>
 
         @endforeach
@@ -267,6 +241,3 @@
 
 
 @endsection
-
-
-

@@ -58,10 +58,12 @@ class CreativeNotification extends Notification
     {
         return [
             'ref_id' => $this->ref->id,
+            'ref_description' => $this->ref->description,
             'book_id' => $this->ref->book->id,
             'book_title' => $this->ref->book->title,
             'user_id' => \Auth::user()->id,
-            'user_name' =>\Auth::user()->name
+            'user_name' =>\Auth::user()->name,
+            'user_avatar' => $this->ref->user->avatar
         ];
     }
 }

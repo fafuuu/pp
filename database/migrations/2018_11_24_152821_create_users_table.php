@@ -18,6 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('role');
+            $table->string('avatar')->default('default.png');
+            $table->string('code_preference')->default('Default');
+            $table->unsignedinteger('watchlist_id')->nullable();
             $table->integer('score')->default(0);
             $table->integer('badge_creative')->default(0);
             $table->integer('badge_costly')->default(0);

@@ -43,15 +43,28 @@
                             </li>
 
                     </ul>
+
+                    <h5>Watchlist</h5>
+                    <ul>
+                        @foreach ($watchlist->entries as $entry)
+                            <li> {{$entry->book_id}} </li>
+                        @endforeach
+                    </ul>
                 </div>
             </div>
-        <p>{{count($notifications)}}</p>
+        <p>{{count($creative_notifications)}}</p>
         <ul class="list-group">
-            @foreach($notifications as $n)
-        <li class="list-group-item"><a href="/user/{{$n->data['user_id']}}"> {{$n->data['user_name']}}</a> hat deinen <a href="/books/{{$n->data['book_id']}}#card{{$n->data['ref_id']}}">Verweis</a> als kreativ in <a href="/books/{{$n->data['book_id']}}">{{$n->data['book_title']}}</a> bewertet
+            @foreach($creative_notifications as $n)
+        <li class="list-group-item"><a href="/user/{{$n->data['user_id']}}"> {{$n->data['user_name']}}</a> hat deinen <a href="#" data-toggle="popover" title='<a href="/books/{{$n->data['book_id']}}#card{{$n->data['ref_id']}}">Gehe zum Verweis </a>' data-content='
+            <div class="card">
+                    <div class="card-body">
+                      {{$n->data['ref_description']}}
+                    </div>
+                  </div>
+            '>Verweis</a> als kreativ in <a href="/books/{{$n->data['book_id']}}">{{$n->data['book_title']}}</a> bewertet
      
             @if($n->read_at == NULL)
-            <form class="float-right" name="notification" method="POST" action="/notification/{{$n->id}}">
+            <form class="float-right" name="notification" method="POST" action="/notifications/{{$n->id}}">
                 
             @method('PATCH')
             @csrf
@@ -64,7 +77,7 @@
             @else
             <span class="badge badge-success">Gelesen</span>
 
-            <form class="float-right" name="notification" method="POST" action="/notification/{{$n->id}}">
+            <form class="float-right" name="notification" method="POST" action="/notifications/{{$n->id}}">
                 
                 @method('DELETE')
                 @csrf
@@ -77,6 +90,10 @@
 
             @endif
         </li>
+        @endforeach
+
+        @foreach ($new_ref_notifications as $ref_notification)
+            <p> Neuer verweis {{$ref_notification->id}} in {{$ref_notification->data['book_title']}} </p>
         @endforeach
         </ul>
             <p> Kreativ bewertet: {{Auth::user()->badge_creative}} </p>
@@ -92,9 +109,6 @@
                     Watchlist erstellen
                 </button>
                 </form>
-
-
-            <a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>
         </div>
     </div>
 </div>

@@ -7,16 +7,12 @@ use Illuminate\Http\Request;
 use App\Book;
 use App\Ref;
 use App\Group;
+use App\User;
+use App\Watchlist;
 use App\Notifications\CreativeNotification;
 use App\Notifications\NewRefNotification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-
-
-use YoutubeDl\YoutubeDl;
-use YoutubeDl\Exception\CopyrightException;
-use YoutubeDl\Exception\NotFoundException;
-use YoutubeDl\Exception\PrivateVideoException;
 
 class BookRefsController extends Controller
 {
@@ -25,24 +21,45 @@ class BookRefsController extends Controller
 
         request()->validate([
 
-            'link' => 'required',
             'page_number' => 'required|numeric|min:1|max:2000',
 
         ]);
 
-        
-
-        $id = Ref::create([
+        $new_ref = Ref::create([
             'book_id' => $book->id,
             'user_id' => \Auth::user()->id,
             'visibility' => request('visibility'),
-            'link' => request('link'),
+            'title' => '',
+            'link' => '',
             'page_number' => request('page_number'),
             'description' => request('description')
-        ])->id;
+        ]);
 
+        $id = $new_ref->id;
+/*
+        $watchlists = Watchlist::all();
+        foreach($watchlists as $watchlist) {
+            $users = User::all();
+
+        }
+*/
+        //$users = \DB::table('users')->join('watchlists', 'users.id', '=', 'watchlists.user_id')->get();
         
-        return Redirect::to(URL::previous() . "#card" .$id);
+        $entries = \Auth::user()->watchlist->entries->where('book_id', $new_ref->book_id);
+        
+        //dd($entries);
+        $users = User::all();
+        //dd($users);
+        foreach($users as $user) {
+            if(($user->group_id == $new_ref->visibility) || $new_ref->visibility == 1 ) {
+                if(count($user->watchlist->entries->where('book_id', $new_ref->book_id)) == 1) {
+                    $user->notify(new NewRefNotification($new_ref));
+                }
+                
+            }
+        }
+
+        return Redirect::to(URL::previous() . "#card" .$id)->with('created', 'Verweis wurde erfolgreich erstellt!');
         
     }
 
@@ -61,9 +78,6 @@ class BookRefsController extends Controller
             if(\Auth::check() && \Auth::user()->id != $ref->user->id) {
                 $ref->user->increment('score', 5);
                 $ref->user->increment('badge_creative');
-
-                $details = [$ref->id, \Auth::user()->name];
-                //$details = \Auth::user()->name . " hat deinen Verweis in " . $ref->book->name . " als kreativ bewertet";
                 $ref->user->notify(new CreativeNotification($ref));
             }
         }
@@ -77,54 +91,14 @@ class BookRefsController extends Controller
         return back();
     }
 
-    public function zip(Ref $ref) {
+    public function edit(Ref $ref) {
 
-/*
-        $dl = new YoutubeDl([
-            'continue' => true, // force resume of partially downloaded files. By default, youtube-dl will resume downloads if possible.
-            'format' => 'bestvideo',
+        $edit = request('edit');
+        
+        $ref->update([
+            'description' => $edit
         ]);
 
-        $dl->setDownloadPath('/home/fabian/Downloads');
-
-        try {
-            header('Content-type: video/*');
-            header('Content-Disposition: attachment');
-            $video = $dl->download('https://www.youtube.com/watch?v=zRwy8gtgJ1A');
-            //header('Content-Disposition: attachment');
-            //dd ($video->getTitle()); // Will return Phonebloks
-            // $video->getFile(); // \SplFileInfo instance of downloaded file
-        } catch (NotFoundException $e) {
-            // Video not found
-            dd('Not Found');
-        } catch (PrivateVideoException $e) {
-            // Video is private
-            dd('Private');
-        } catch (CopyrightException $e) {
-            // The YouTube account associated with this video has been terminated due to multiple third-party notifications of copyright infringement
-            dd('copystriked');
-        } catch (\Exception $e) {
-            // Failed to download
-            dd('Failed');
-        }
-
-
-
-        $zip = new \ZipArchive();
-        $filename = "./test112.zip";
-
-        $zip->open($filename, \ZipArchive::CREATE);
-
-        $zip->close();
-
-        header("Content-type: application/zip"); 
-        header("Content-Disposition: attachment; filename=$filename");
-        header("Content-length: " . filesize($filename));
-        header("Pragma: no-cache"); 
-        header("Expires: 0"); 
-        readfile($filename);
-*/
-        //return back();
-
+        return Redirect::to(URL::previous() . "#card" . $ref->id);
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Group;
+use App\Http\Resources\GroupCollection;
+
 
 class GroupsController extends Controller
 {
@@ -25,6 +27,7 @@ class GroupsController extends Controller
         $groups = Group::all();
         
         return view('groups.index', ['groups'=> $groups]);
+        //return new GroupCollection($groups);
 
     }
 
@@ -42,4 +45,17 @@ class GroupsController extends Controller
 
 
     }
+
+    public function show(Group $group) {
+
+        return view('groups.show', compact('group'));
+        
+    }
+
+    public function search(Request $request) {
+        $search = $request->get('q');
+        
+        return Group::where('group_name', 'like', '%'.$search.'%')->get();
+    }
+
 }

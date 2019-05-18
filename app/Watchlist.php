@@ -16,9 +16,13 @@ class Watchlist extends Model
 
         return $this->belongsTo(User::class);
     }
-
-    public function book() {
+/*
+    public function books() {
 
         return $this->hasMany(Book::class);
+    }
+*/
+    public function entries() {
+        return $this->hasMany(Watchlist_entry::class);
     }
 }

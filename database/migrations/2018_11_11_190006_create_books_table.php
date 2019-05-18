@@ -22,6 +22,7 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->string('publisher')->nullable();
             $table->unsignedInteger('pageCount');
+            $table->unsignedInteger('watchlist_entry_id')->nullable();
             $table->timestamps();
         });
     }

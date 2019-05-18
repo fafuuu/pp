@@ -24,4 +24,9 @@ class Book extends Model
         return $this->hasMany(Ref::class);
     }
 
+    public function entries() {
+        
+        return $this->hasMany(Watchlist_entry::class);
+    }
+
 }

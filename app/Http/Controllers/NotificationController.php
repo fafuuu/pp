@@ -17,6 +17,17 @@ class NotificationController extends Controller
         return back();
 
     }
+    public function all_read()
+    {
+        $notifications = \Auth::user()->notifications()->get();
+
+        foreach($notifications as $notification) {
+            $notification->markAsRead();
+        }
+
+        return back();
+
+    }
 
     public function delete()
     {
@@ -28,4 +39,17 @@ class NotificationController extends Controller
         return back();
 
     }
+
+    public function delete_all()
+    {
+        $notifications = \Auth::user()->notifications()->get();
+
+        foreach($notifications as $notification) {
+            $notification->delete();
+        }
+
+        return back();
+
+    }
+
 }

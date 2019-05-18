@@ -1,12 +1,13 @@
 var editor_config = {
         path_absolute : "{{ URL::to('/') }}/",
-        selector: "textarea",
+        selector: "#description_textarea",
         branding: false,
+        
         plugins: [
-            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars code fullscreen",
-            "insertdatetime media nonbreaking save table contextmenu directionality",
-            "emoticons template paste textcolor colorpicker textpattern codesample"
+            "advlist autolink lists link image charmap preview hr pagebreak",
+            "wordcount visualblocks visualchars code fullscreen",
+            "media nonbreaking table",
+            "emoticons paste codesample"
         ],
         codesample_languages: [
             {text: 'HTML/XML', value: 'markup'},

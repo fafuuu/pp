@@ -145,7 +145,14 @@ class BooksController extends Controller
             $refs = $visible_all;
         }
 
-        return view("books.show", ["book" => $book, "groups" => $groups, "refs" => $refs]);
+        if(request('vehicle')) {
+            dd(request('vehicle'));
+        }
+
+        return view("books.show", ["book" => $book, 
+            "groups" => $groups, 
+            "refs" => $refs    
+        ]);
     }
 
     public function archive(Book $book) {

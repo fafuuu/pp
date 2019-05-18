@@ -11,14 +11,16 @@ class NewRefNotification extends Notification
 {
     use Queueable;
 
+    protected $ref;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ref)
     {
-        //
+        $this->ref = $ref;
     }
 
     /**
@@ -29,7 +31,7 @@ class NewRefNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -55,7 +57,19 @@ class NewRefNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            
+        ];
+    }
+
+    public function toDatabase($notifiable)
+    {
+        return [
+            'ref_id' => $this->ref->id,
+            'book_id' => $this->ref->book->id,
+            'book_title' => $this->ref->book->title,
+            'user_id' => $this->ref->user->id,
+            'user_name' => $this->ref->user->name,
+            'user_avatar' => $this->ref->user->avatar
         ];
     }
 }

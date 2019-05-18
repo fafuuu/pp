@@ -15,8 +15,8 @@ class CreateWatchlistsTable extends Migration
     {
         Schema::create('watchlists', function (Blueprint $table) {
             $table->increments('id');
-            $table->json('book_ids')->nullable();
             $table->unsignedinteger('user_id');
+            $table->unsignedinteger('watchlist_entry_id');
             $table->timestamps();
         });
     }

@@ -9,33 +9,38 @@
 
     <title>{{ config('app.name', 'Buchklub') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ secure_asset('js/app.js') }}" defer></script>
-    <script src="{{ secure_asset('js/prism.js') }}" defer></script>
-    <script src="{{ secure_asset('js/tinymce/tinymce.min.js') }}" ></script>
-    <script src="{{ secure_asset('js/tinymce/tiny.conf.js') }}" ></script>
-    
-
-
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    
+    <!-- <link rel="stylesheet" href="{{asset('css/google_fonts/css/google_fonts.css')}}"> -->
+    <link rel="stylesheet" href="{{asset('css/font_awesome/css/all.css')}}">
 
     <!-- Styles -->
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet" media="mpdf">
     <link href="{{ secure_asset('css/mobile.css') }}" rel="stylesheet">
-    <link href="{{ secure_asset('css/prism.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.png">
+
+    @guest
+        <link href="{{ secure_asset('css/prism_default.css') }}" rel="stylesheet">
+    @else
+
+    @if (Auth::user()->code_preference == "Default")
+        <link href="{{ secure_asset('css/prism_default.css') }}" rel="stylesheet">
+    @elseif(Auth::user()->code_preference == "Dark")
+        <link href="{{ secure_asset('css/prism_okaido.css') }}" rel="stylesheet">     
+    @else
+        <link href="{{ secure_asset('css/prism_solarized.css') }}" rel="stylesheet"> 
+    @endif
+    @endguest
+
+    <link href="{{secure_asset('css/dashboard.css')}}" rel="stylesheet">
+    @yield('css')
 
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav id="nav" class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -47,8 +52,11 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li>
+                        <li class="nav-item mr-2">
                             <a href="/books"> Bücher </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/groups"> Gruppen </a>
                         </li>
                         
                     </ul>
@@ -78,10 +86,14 @@
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <img src="/uploads/avatars/{{Auth::user()->avatar}}" width="32px" height="32px">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/home">
+                                        Dashboard
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -103,5 +115,34 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{ secure_asset('js/app.js') }}"></script>
+ 
+    <script src="{{ secure_asset('js/prism.js') }}" defer></script>
+    
+<script src="{{ secure_asset('js/tinymce/tinymce.min.js') }}" defer></script>
+<script src="{{ secure_asset('js/tinymce/tiny.conf.js') }}" defer></script>
+
+   <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true,
+            })
+        })
+        $('.mypopover').popover('show');
+    </script>
+    @yield('js')    
+
+@guest
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#missingoutModal').modal('show');
+    });
+</script> 
+@endguest
+
+    
 </body>
+
+
+
 </html>

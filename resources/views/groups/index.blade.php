@@ -13,21 +13,18 @@
     <input id="test1" type="text" name="group" placeholder="Gruppenname">
 </div>
 <div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary mb-2">Anlegen</button>
 </div>
 
 </form>
 
-
-
-
-<ul class="list-group">
-
     @foreach($groups as $group)
 
-        <li class="list-group-item mb-2"> {{$group->group_name}}
-
-        @if($group->id == Auth::user()->group_id)
+        <div class="card mb-2">
+                <div class="card-header">
+                    {{$group->group_name}}
+                    
+                    @if($group->id == Auth::user()->group_id)
 
         <form class="float-right" method="POST" action="/groups/{{$group->id}}">
 
@@ -48,10 +45,16 @@
 
                 <button name="join" value="{{$group->id}}" type="submit" class="btn btn-success float-right">Join</button>
             </form>
-        
-        </li>
-        @endif
-    @endforeach
+            @endif
 
-</ul>
+            <a href="#modal" class="float-right mr-2" data-toggle="modal" data-target="#groupModal-{{$group->id}}">Und X weitere</a>
+            
+            @include('groups.group_modal')
+                </div>
+                <div class="card-body">
+                    <p class="card-text">With supporting text below</p>
+            
+                </div>
+            </div>
+    @endforeach
 @endsection

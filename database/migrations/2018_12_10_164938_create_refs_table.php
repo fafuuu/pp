@@ -19,6 +19,7 @@ class CreateRefsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('page_number');
             $table->unsignedInteger('visibility');
+            $table->text('title');
             $table->string('link');
             $table->text('description')->nullable();
             $table->integer('votes')->default(0);
