@@ -29,8 +29,6 @@ class BookRefsController extends Controller
             'book_id' => $book->id,
             'user_id' => \Auth::user()->id,
             'visibility' => request('visibility'),
-            'title' => '',
-            'link' => '',
             'page_number' => request('page_number'),
             'description' => request('description')
         ]);
